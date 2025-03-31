@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Real-time Face Detection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background-color: #949090;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .video-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #video {
+            position: relative;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .emotion-bar {
+            margin: 10px 0;
+        }
+
+        .emotion-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #333;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: #4CAF50;
+            transition: width 0.3s ease;
+        }
+
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            width: 120px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        #stopButton {
+            background-color: #f44336;
+        }
+
+        #stopButton:hover {
+            background-color: #da190b;
+        }
+        
+        /* Emotion Bubble Styles */
+        .emotion-bubble {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 100;
+            font-family: Arial, sans-serif;
+            pointer-events: none;
+        }
+        
+        .emotion-icon {
+            font-size: 20px;
+        }
+        
+        .emotion-text {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) scale(0.5);
+                opacity: 0;
+            }
+            20% {
+                transform: translateY(-10px) scale(1);
+                opacity: 0.9;
+            }
+            80% {
+                transform: translateY(-30px) scale(1);
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(-50px) scale(0.8);
+                opacity: 0;
+            }
+        }
+    </style>
+    <script defer src="face-api.min.js"></script>
+    <script defer src="script1.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="video-container">
+            <video id="video" width="720" height="560" autoplay muted></video>
+            <div class="controls">
+                <!-- <div id="speechDisplayArea">语音识别结果将显示在这里...</div> -->
+                <div class="buttons-container">
+                    <button id="startButton">开启摄像头</button>
+                    <button id="stopButton" disabled>关闭摄像头</button>
+                </div>
+            </div>
+        </div>
+        <div id="emotionsContainer"></div>
+        
+    </div>
+</body>
+</html>
